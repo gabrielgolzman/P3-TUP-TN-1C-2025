@@ -1,19 +1,35 @@
-import Button from "../button/Button"
+import { Card, Button, Badge } from "react-bootstrap";
+
+import './bookItem.css'
 
 const BookItem = ({
     title,
     author,
     rating,
-    pageQty
+    pageCount,
+    imageUrl,
+    available
 }) => {
     return (
-        <>
-            <h2>{title}</h2>
-            <h3>{author}</h3>
-            <div>{rating} estrellas</div>
-            <p>{pageQty} páginas</p>
-            <Button text="Actualizar precio" />
-        </>
+        <Card className="mx-3 card-container">
+            <Card.Img
+                height={400}
+                variant="top"
+                src={imageUrl} />
+            <Card.Body>
+                <div className="mb-2">
+                    {available ?
+                        <Badge bg="success">Disponible</Badge> :
+                        <Badge bg="danger">Reservado</Badge>
+                    }
+                </div>
+                <Card.Title>{title}</Card.Title>
+                <Card.Subtitle>{author}</Card.Subtitle>
+                <div>{rating} estrella{rating > 1 ? 's' : ''}</div>
+                <p>{pageCount} páginas</p>
+                <Button>Actualizar título</Button>
+            </Card.Body>
+        </Card>
     )
 }
 

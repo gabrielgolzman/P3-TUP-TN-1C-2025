@@ -14,13 +14,15 @@ import BookItem from "./components/bookItem/BookItem"
 
 const App = () => {
 
-  const booksMapped = books.map((book, index) =>
+  const booksMapped = books.map((book) =>
     <BookItem
-      key={index}
+      key={book.id}
       title={book.title}
       author={book.author}
-      pageQty={book.pageQty}
-      rating={book.rating}>Texto</BookItem>)
+      pageCount={book.pageCount}
+      rating={book.rating}
+      imageUrl={book.imageUrl}
+      available={book.available} />)
 
   return (
     <>

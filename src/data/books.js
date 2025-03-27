@@ -27,7 +27,7 @@ export const books = [
         pageCount: 352,
         imageUrl:
             "https://m.media-amazon.com/images/I/A1y0jd28riL._AC_UF1000,1000_QL80_.jpg",
-        available: true
+        available: false
     },
     {
         id: 4,
