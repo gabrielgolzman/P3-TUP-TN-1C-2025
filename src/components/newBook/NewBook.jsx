@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 
-const NewBook = () => {
+const NewBook = ({ onAddBook }) => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [rating, setRating] = useState('');
@@ -33,10 +33,29 @@ const NewBook = () => {
         setAvailable(event.target.checked)
     }
 
+    const handleAddBook = (event) => {
+        event.preventDefault();
+        const newBook = {
+            title,
+            author,
+            pageCount,
+            rating,
+            imageUrl,
+            available,
+        }
+        onAddBook(newBook);
+        setTitle('');
+        setAuthor('');
+        setImageUrl('');
+        setPageCount('');
+        setRating('');
+        setAvailable(false);
+    }
+
     return (
         <Card className="m-4 w-50" bg="success">
             <Card.Body>
-                <Form className="text-white">
+                <Form className="text-white" onSubmit={handleAddBook}>
                     <Row>
                         <Col md={6}>
                             <Form.Group className="mb-3" controlId="title">
@@ -105,7 +124,7 @@ const NewBook = () => {
                                 className="mb-3"
                                 label="¿Disponible?"
                                 onChange={handleChangeAvailability}
-                                value={available}
+                                checked={available}
                             />
                             <Button variant="primary" type="submit">
                                 Agregar lectura
