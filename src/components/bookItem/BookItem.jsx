@@ -1,4 +1,5 @@
 import { Card, Button, Badge } from "react-bootstrap";
+import { StarFill, Star, } from "react-bootstrap-icons";
 
 import './bookItem.css'
 
@@ -12,10 +13,17 @@ const BookItem = ({
     onBookSelected
 }) => {
 
-
     const handleSelectBook = () => {
         onBookSelected(title);
     }
+
+    const starsFilled = Array.from(
+        { length: rating },
+        ((_, i) => <StarFill key={`Fill_${i}`} />));
+
+    const starsEmpty = Array.from(
+        { length: 5 - rating },
+        ((_, i) => <Star key={`Fill_${i}`} />));
 
     return (
         <Card className="mx-3 mb-3 card-container">
@@ -32,7 +40,7 @@ const BookItem = ({
                 </div>
                 <Card.Title>{title}</Card.Title>
                 <Card.Subtitle>{author}</Card.Subtitle>
-                <div>{rating} estrella{rating > 1 ? 's' : ''}</div>
+                <div>{starsFilled}{starsEmpty}</div>
                 <p>{pageCount} páginas</p>
                 <Button onClick={handleSelectBook}>Seleccionar libro</Button>
             </Card.Body>
