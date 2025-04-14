@@ -42,7 +42,10 @@ const BookItem = ({
                 <Card.Subtitle>{author}</Card.Subtitle>
                 <div>{starsFilled}{starsEmpty}</div>
                 <p>{pageCount} páginas</p>
-                <Button onClick={handleSelectBook}>Seleccionar libro</Button>
+                <div className="d-flex justify-content-between">
+                    <Button className="me-3" variant="danger" onClick={() => { }}>Eliminar libro</Button>
+                    <Button onClick={handleSelectBook}>Seleccionar libro</Button>
+                </div>
             </Card.Body>
         </Card>
     )

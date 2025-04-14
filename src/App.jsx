@@ -23,11 +23,11 @@ const App = () => {
   }
   return (
     <div className="d-flex flex-column align-items-center">
-      {/* <h2>Book Champions app</h2>
+      <h2>Book Champions app</h2>
       <p>¡Quiero leer libros!</p>
       <NewBook onAddBook={handleAddBook} />
-      <Books books={books} /> */}
-      <Login />
+      <Books books={books} />
+      {/* <Login /> */}
     </div>
   )
 
