@@ -4,17 +4,23 @@ import { StarFill, Star, } from "react-bootstrap-icons";
 import './bookItem.css'
 
 const BookItem = ({
+    id,
     title,
     author,
     rating,
     pageCount,
     imageUrl,
     available,
-    onBookSelected
+    onBookSelected,
+    onDeleteBook
 }) => {
 
     const handleSelectBook = () => {
         onBookSelected(title);
+    }
+
+    const handleDeleteBook = () => {
+        onDeleteBook(id, title);
     }
 
     const starsFilled = Array.from(
@@ -43,8 +49,16 @@ const BookItem = ({
                 <div>{starsFilled}{starsEmpty}</div>
                 <p>{pageCount} páginas</p>
                 <div className="d-flex justify-content-between">
-                    <Button className="me-3" variant="danger" onClick={() => { }}>Eliminar libro</Button>
-                    <Button onClick={handleSelectBook}>Seleccionar libro</Button>
+                    <Button
+                        className="me-3"
+                        variant="danger"
+                        onClick={handleDeleteBook}>
+                        Eliminar libro
+                    </Button>
+                    <Button
+                        onClick={handleSelectBook}>
+                        Seleccionar libro
+                    </Button>
                 </div>
             </Card.Body>
         </Card>

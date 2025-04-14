@@ -8,26 +8,36 @@
 
 // Estilos
 import { useState } from "react"
+import { BrowserRouter, Routes, Route } from "react-router"
 
-import { books as dataBooks } from "./data/books"
-
-import Books from "./components/books/Books"
-import NewBook from "./components/newBook/NewBook"
 import Login from "./components/login/Login"
+import Dashboard from "./components/dashboard/Dashboard"
+import NotFound from "./components/routes/notFound/NotFound"
+import Protected from "./components/routes/protected/Protected"
 
 const App = () => {
-  const [books, setBooks] = useState(dataBooks);
 
-  const handleAddBook = (newBook) => {
-    setBooks(prevBooks => [newBook, ...prevBooks]);
+  const [isSignedIn, setIsSignedIn] = useState(false);
+
+  const handleSignIn = () => {
+    setIsSignedIn(true);
   }
+
   return (
     <div className="d-flex flex-column align-items-center">
-      <h2>Book Champions app</h2>
-      <p>¡Quiero leer libros!</p>
-      <NewBook onAddBook={handleAddBook} />
-      <Books books={books} />
-      {/* <Login /> */}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route
+            path="login"
+            element={<Login onLogin={handleSignIn} />} />
+          <Route element={<Protected isSignedIn={isSignedIn} />}>
+            <Route path="library" element={<Dashboard />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+
+      </BrowserRouter>
     </div>
   )
 
