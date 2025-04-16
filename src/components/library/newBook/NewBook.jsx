@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const NewBook = ({ onAddBook }) => {
     const [title, setTitle] = useState('');
@@ -8,6 +9,8 @@ const NewBook = ({ onAddBook }) => {
     const [pageCount, setPageCount] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [available, setAvailable] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleChangeTitle = (event) => {
         setTitle(event.target.value)
@@ -31,6 +34,10 @@ const NewBook = ({ onAddBook }) => {
 
     const handleChangeAvailability = (event) => {
         setAvailable(event.target.checked)
+    }
+
+    const handleGoBack = () => {
+        navigate("/library");
     }
 
     const handleAddBook = (event) => {
@@ -126,9 +133,20 @@ const NewBook = ({ onAddBook }) => {
                                 onChange={handleChangeAvailability}
                                 checked={available}
                             />
-                            <Button variant="primary" type="submit">
-                                Agregar lectura
-                            </Button>
+                            <Row >
+                                <Col />
+                                <Col md={6} className="d-flex justify-content-end">
+                                    <Button className="me-3"
+                                        onClick={handleGoBack}
+                                        variant="secondary"
+                                        type="button">
+                                        Volver
+                                    </Button>
+                                    <Button variant="primary" type="submit">
+                                        Agregar lectura
+                                    </Button>
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                 </Form>

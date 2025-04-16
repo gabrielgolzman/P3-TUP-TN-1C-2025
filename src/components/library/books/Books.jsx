@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import BookItem from "../bookItem/BookItem";
 import BookSearch from "../bookSearch/BookSearch";
-import ModalDelete from "../modalDelete/ModalDelete";
+import ModalDelete from "../../ui/modalDelete/ModalDelete";
 
 const initialModalState = {
     show: false,
@@ -53,6 +53,7 @@ const Books = ({ books, onDelete }) => {
                 rating={book.rating}
                 imageUrl={book.imageUrl}
                 available={book.available}
+                summary={book.summary}
                 onBookSelected={handleBookSelected}
                 onDeleteBook={handleShowDeleteModal} />);
 

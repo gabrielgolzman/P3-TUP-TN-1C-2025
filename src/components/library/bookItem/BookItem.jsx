@@ -1,5 +1,7 @@
 import { Card, Button, Badge } from "react-bootstrap";
 import { StarFill, Star, } from "react-bootstrap-icons";
+import { useNavigate } from "react-router";
+
 
 import './bookItem.css'
 
@@ -11,12 +13,27 @@ const BookItem = ({
     pageCount,
     imageUrl,
     available,
+    summary,
     onBookSelected,
     onDeleteBook
 }) => {
 
+    const navigate = useNavigate();
     const handleSelectBook = () => {
         onBookSelected(title);
+        navigate(`${id}`, {
+            state: {
+                book: {
+                    title,
+                    author,
+                    rating,
+                    pageCount,
+                    imageUrl,
+                    available,
+                    summary
+                }
+            }
+        })
     }
 
     const handleDeleteBook = () => {
