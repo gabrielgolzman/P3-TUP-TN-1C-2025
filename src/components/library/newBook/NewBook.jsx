@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import { useNavigate } from "react-router";
 
+import { errorToast } from "../../../utils/notification";
+
 const NewBook = ({ onAddBook }) => {
     const [title, setTitle] = useState('');
     const [author, setAuthor] = useState('');
@@ -42,6 +44,12 @@ const NewBook = ({ onAddBook }) => {
 
     const handleAddBook = (event) => {
         event.preventDefault();
+        if (!title || !author)
+            return errorToast("El título y el autor son campos requeridos",
+                {
+                    theme: 'dark'
+                });
+
         const newBook = {
             title,
             author,

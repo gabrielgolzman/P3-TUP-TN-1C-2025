@@ -1,20 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import { Routes, Route, useNavigate } from "react-router";
 
-import { books as dataBooks } from "../../../data/books"
+// import { books as dataBooks } from "../../../data/books"
 
 import Books from "../books/Books";
 import NewBook from "../newBook/NewBook";
 import BookDetails from "../bookDetails/BookDetails";
+import { successToast } from "../../../utils/notification";
 
 const Dashboard = ({ onLogout }) => {
-    const [books, setBooks] = useState(dataBooks);
+    const [books, setBooks] = useState([]);
+
+    console.log("Se renderizo el Dashboard!");
+
+    useEffect(() => {
+        // Acá va la lógica
+
+        console.log("Se ejecuto el efecto de Dashboard");
+
+        fetch("http://localhost:3000/books")
+            .then(res => res.json())
+            .then(data => setBooks([...data]))
+            .catch(err => console.log(err))
+    }, [])
+
 
     const navigate = useNavigate();
 
     const handleAddBook = (newBook) => {
-        setBooks(prevBooks => [newBook, ...prevBooks]);
+        fetch("http://localhost:3000/books", {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify(newBook)
+        })
+            .then(res => res.json())
+            .then(data => {
+                setBooks(prevBooks => [data, ...prevBooks])
+                successToast("Libro agregado correctamente")
+            }
+            )
+            .catch(err => console.log(err))
     }
 
     const handleNavigateAddBook = () => {
@@ -22,9 +50,20 @@ const Dashboard = ({ onLogout }) => {
     }
 
     const handleDeleteBook = (bookId) => {
-        setBooks(prevBooks =>
-            prevBooks.filter(book => book.id !== bookId))
+        fetch(`http://localhost:3000/books/${bookId}`, {
+            method: "DELETE"
+        })
+            .then(res => res.text())
+            .then(() => {
+                successToast(`Se elimino el libro con id ${bookId}`);
+                setBooks(prevBooks =>
+                    prevBooks.filter(book => book.id !== bookId))
+            })
+            .catch(err => console.log(err));
+
+
     }
+
     return (<>
         <Row className="w-100 my-3">
             <Col />
