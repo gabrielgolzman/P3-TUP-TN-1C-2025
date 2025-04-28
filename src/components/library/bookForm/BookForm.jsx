@@ -1,18 +1,25 @@
 import { useState } from "react";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 import { errorToast } from "../../../utils/notification";
 
-const NewBook = ({ onAddBook }) => {
-    const [title, setTitle] = useState('');
-    const [author, setAuthor] = useState('');
-    const [rating, setRating] = useState('');
-    const [pageCount, setPageCount] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
-    const [available, setAvailable] = useState(false);
+const BookForm = ({
+    book,
+    isEditing = false,
+    onAddBook,
+    onSaveBook
+}) => {
+    const [title, setTitle] = useState(book?.title);
+    const [author, setAuthor] = useState(book?.author);
+    const [rating, setRating] = useState(book?.rating);
+    const [pageCount, setPageCount] = useState(book?.pageCount);
+    const [imageUrl, setImageUrl] = useState(book?.imageUrl);
+    const [available, setAvailable] = useState(book?.available);
 
     const navigate = useNavigate();
+    const { id } = useParams();
+
 
     const handleChangeTitle = (event) => {
         setTitle(event.target.value)
@@ -42,7 +49,22 @@ const NewBook = ({ onAddBook }) => {
         navigate("/library");
     }
 
-    const handleAddBook = (event) => {
+    const handleSaveBook = (bookData) => {
+        fetch(`http://localhost:3000/books/${id}`, {
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "PUT",
+            body: JSON.stringify(bookData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                onSaveBook(data)
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleSubmit = (event) => {
         event.preventDefault();
         if (!title || !author)
             return errorToast("El título y el autor son campos requeridos",
@@ -50,7 +72,7 @@ const NewBook = ({ onAddBook }) => {
                     theme: 'dark'
                 });
 
-        const newBook = {
+        const bookData = {
             title,
             author,
             pageCount,
@@ -58,19 +80,25 @@ const NewBook = ({ onAddBook }) => {
             imageUrl,
             available,
         }
-        onAddBook(newBook);
-        setTitle('');
-        setAuthor('');
-        setImageUrl('');
-        setPageCount('');
-        setRating('');
-        setAvailable(false);
+        if (isEditing)
+            handleSaveBook(bookData);
+
+        else {
+            onAddBook(bookData);
+            setTitle('');
+            setAuthor('');
+            setImageUrl('');
+            setPageCount('');
+            setRating('');
+            setAvailable(false);
+        }
+
     }
 
     return (
         <Card className="m-4 w-50" bg="success">
             <Card.Body>
-                <Form className="text-white" onSubmit={handleAddBook}>
+                <Form className="text-white" onSubmit={handleSubmit}>
                     <Row>
                         <Col md={6}>
                             <Form.Group className="mb-3" controlId="title">
@@ -151,7 +179,7 @@ const NewBook = ({ onAddBook }) => {
                                         Volver
                                     </Button>
                                     <Button variant="primary" type="submit">
-                                        Agregar lectura
+                                        {isEditing ? "Actualizar" : "Agregar"} lectura
                                     </Button>
                                 </Col>
                             </Row>
@@ -164,4 +192,4 @@ const NewBook = ({ onAddBook }) => {
 };
 
 
-export default NewBook;
+export default BookForm;

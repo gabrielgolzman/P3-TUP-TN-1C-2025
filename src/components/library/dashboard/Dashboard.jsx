@@ -1,30 +1,26 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import { Routes, Route, useNavigate } from "react-router";
+import { Routes, Route, useNavigate, useLocation } from "react-router";
 
-// import { books as dataBooks } from "../../../data/books"
+import { successToast } from "../../../utils/notification";
 
 import Books from "../books/Books";
-import NewBook from "../newBook/NewBook";
+import BookForm from "../bookForm/BookForm";
 import BookDetails from "../bookDetails/BookDetails";
-import { successToast } from "../../../utils/notification";
 
 const Dashboard = ({ onLogout }) => {
     const [books, setBooks] = useState([]);
 
-    console.log("Se renderizo el Dashboard!");
+    const location = useLocation();
 
     useEffect(() => {
-        // Acá va la lógica
 
-        console.log("Se ejecuto el efecto de Dashboard");
-
-        fetch("http://localhost:3000/books")
-            .then(res => res.json())
-            .then(data => setBooks([...data]))
-            .catch(err => console.log(err))
-    }, [])
-
+        if (location.pathname === "/library")
+            fetch("http://localhost:3000/books")
+                .then(res => res.json())
+                .then(data => setBooks([...data]))
+                .catch(err => console.log(err))
+    }, [location]);
 
     const navigate = useNavigate();
 
@@ -76,12 +72,9 @@ const Dashboard = ({ onLogout }) => {
         <p>¡Quiero leer libros!</p>
         <Routes>
             <Route index element={<Books books={books} onDelete={handleDeleteBook} />} />
-            <Route path="/add-book" element={<NewBook onAddBook={handleAddBook} />} />
+            <Route path="/add-book" element={<BookForm onAddBook={handleAddBook} />} />
             <Route path="/:id" element={<BookDetails />} />
         </Routes>
-
-
-
     </>
     )
 }
