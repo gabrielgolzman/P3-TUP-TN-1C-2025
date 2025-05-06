@@ -52,7 +52,8 @@ const BookForm = ({
     const handleSaveBook = (bookData) => {
         fetch(`http://localhost:3000/books/${id}`, {
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("book-champions-token")}`
             },
             method: "PUT",
             body: JSON.stringify(bookData)

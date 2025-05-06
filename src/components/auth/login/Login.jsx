@@ -52,7 +52,25 @@ const Login = ({ onLogin }) => {
         }
 
         onLogin();
-        navigate('/library')
+
+        fetch("http://localhost:3000/login", {
+            headers: {
+                "Content-type": 'application/json'
+            },
+            method: "POST",
+            body: JSON.stringify({
+                email,
+                password
+            })
+        })
+            .then(res => res.json())
+            .then(token => {
+                localStorage.setItem("book-champions-token", token)
+                navigate('/library')
+            })
+            .catch(err => console.log(err))
+
+
     }
 
     return (
