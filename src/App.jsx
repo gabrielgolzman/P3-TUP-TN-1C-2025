@@ -7,27 +7,15 @@
 // Componentes
 
 // Estilos
-import { useState } from "react"
-import { BrowserRouter, Routes, Route, Navigate } from "react-router"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { ToastContainer } from "react-toastify"
 
 import Login from "./components/auth/login/Login"
 import Dashboard from "./components/library/dashboard/Dashboard"
 import NotFound from "./components/routes/notFound/NotFound"
 import Protected from "./components/routes/protected/Protected"
-import { ToastContainer } from "react-toastify"
 
 const App = () => {
-
-  const [isSignedIn, setIsSignedIn] = useState(false);
-
-  const handleSignIn = () => {
-    setIsSignedIn(true);
-  }
-
-  const handleLogout = () => {
-    setIsSignedIn(false);
-    localStorage.removeItem("book-champions-token")
-  }
 
   return (
     <div className="d-flex flex-column align-items-center">
@@ -36,9 +24,9 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Navigate to='login' />} />
           <Route
-            path="login" element={<Login onLogin={handleSignIn} />} />
-          <Route element={<Protected isSignedIn={isSignedIn} />}>
-            <Route path="/library/*" element={<Dashboard onLogout={handleLogout} />} />
+            path="/login" element={<Login />} />
+          <Route element={<Protected />}>
+            <Route path="/library/*" element={<Dashboard />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,9 +1,13 @@
 
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router";
 import { Button, Card, Col, Form, FormGroup, Row } from "react-bootstrap";
+import ToggleTheme from "../../ui/toggleTheme/ToggleTheme";
+import { AuthContext } from "../../../services/authContext/Auth.context";
+import { loginUser } from "./Login.services";
+import { errorToast } from "../../../utils/notification";
 
-const Login = ({ onLogin }) => {
+const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({
@@ -13,6 +17,8 @@ const Login = ({ onLogin }) => {
 
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
+
+    const { handleUserLogin } = useContext(AuthContext)
 
     const navigate = useNavigate();
 
@@ -51,31 +57,23 @@ const Login = ({ onLogin }) => {
             return;
         }
 
-        onLogin();
-
-        fetch("http://localhost:3000/login", {
-            headers: {
-                "Content-type": 'application/json'
-            },
-            method: "POST",
-            body: JSON.stringify({
-                email,
-                password
-            })
-        })
-            .then(res => res.json())
-            .then(token => {
-                localStorage.setItem("book-champions-token", token)
+        loginUser({ email, password },
+            (token) => {
+                handleUserLogin(token);
                 navigate('/library')
-            })
-            .catch(err => console.log(err))
+            },
+            err => {
+                errorToast(err.message)
+            }
 
+        )
 
     }
 
     return (
         <Card className="mt-5 mx-3 p-3 px-5 shadow">
             <Card.Body>
+                <ToggleTheme />
                 <Row className="mb-2">
                     <h5>¡Bienvenidos a Books Champion!</h5>
                 </Row>
