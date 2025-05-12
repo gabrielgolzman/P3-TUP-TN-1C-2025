@@ -50,7 +50,7 @@ const BookForm = ({
     }
 
     const handleSaveBook = (bookData) => {
-        fetch(`http://localhost:3000/books/${id}`, {
+        fetch(`${import.meta.env.VITE_BASE_SERVER_URL}/books/${id}`, {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("book-champions-token")}`

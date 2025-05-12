@@ -20,7 +20,7 @@ const Dashboard = () => {
     useEffect(() => {
 
         if (location.pathname === "/library")
-            fetch("http://localhost:3000/books", {
+            fetch(`${import.meta.env.VITE_BASE_SERVER_URL}/books`, {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("book-champions-token")}`
                 }
@@ -33,7 +33,7 @@ const Dashboard = () => {
     const navigate = useNavigate();
 
     const handleAddBook = (newBook) => {
-        fetch("http://localhost:3000/books", {
+        fetch(`${import.meta.env.VITE_BASE_SERVER_URL}/books`, {
             headers: {
                 "Content-Type": "application/json"
             },
@@ -54,7 +54,7 @@ const Dashboard = () => {
     }
 
     const handleDeleteBook = (bookId) => {
-        fetch(`http://localhost:3000/books/${bookId}`, {
+        fetch(`${import.meta.env.VITE_BASE_SERVER_URL}/books/${bookId}`, {
             method: "DELETE"
         })
             .then(res => res.text())

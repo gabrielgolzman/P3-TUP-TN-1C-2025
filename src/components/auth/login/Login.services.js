@@ -1,5 +1,5 @@
 export const loginUser = (rq, onSuccess, onError) => {
-    fetch("http://localhost:3000/login", {
+    fetch(`${import.meta.env.VITE_BASE_SERVER_URL}/login`, {
         headers: {
             "Content-type": 'application/json'
         },
