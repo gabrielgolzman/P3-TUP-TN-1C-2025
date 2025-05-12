@@ -7,6 +7,7 @@ import { AuthContext } from "../../../services/authContext/Auth.context";
 import { loginUser } from "./Login.services";
 import { errorToast } from "../../../utils/notification";
 import AuthContainer from "../authContainer/AuthContainer";
+import { useTranslate } from "../../../hooks/useTranslate/useTranslate";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -22,6 +23,7 @@ const Login = () => {
     const { handleUserLogin } = useContext(AuthContext)
 
     const navigate = useNavigate();
+    const translate = useTranslate()
 
     const handleEmailChange = (event) => {
         setEmail(event.target.value);
@@ -110,7 +112,7 @@ const Login = () => {
                     </Col>
                 </Row>
                 <Row className="mt-4">
-                    <p className="text-center fw-bold">¿Aún no tienes cuenta?</p>
+                    <p className="text-center fw-bold">{translate("login_no_account")}</p>
                     <Button onClick={handleRegisterClick}>Registrarse</Button>
                 </Row>
 

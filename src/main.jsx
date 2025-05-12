@@ -4,13 +4,16 @@ import './index.css'
 import App from './App.jsx'
 import ThemeContextProvider from './services/themeContext/ThemeContextProvider.jsx'
 import AuthContextProvider from './services/authContext/AuthContextProvider.jsx'
+import TranslateContextProvider from './services/translateContext/TranslateContextProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthContextProvider>
-      <ThemeContextProvider>
-        <App />
-      </ThemeContextProvider>
-    </AuthContextProvider>
+    <TranslateContextProvider>
+      <AuthContextProvider>
+        <ThemeContextProvider>
+          <App />
+        </ThemeContextProvider>
+      </AuthContextProvider>
+    </TranslateContextProvider>
   </StrictMode>,
 )
