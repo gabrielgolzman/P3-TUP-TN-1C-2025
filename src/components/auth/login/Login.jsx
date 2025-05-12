@@ -6,6 +6,7 @@ import ToggleTheme from "../../ui/toggleTheme/ToggleTheme";
 import { AuthContext } from "../../../services/authContext/Auth.context";
 import { loginUser } from "./Login.services";
 import { errorToast } from "../../../utils/notification";
+import AuthContainer from "../authContainer/AuthContainer";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -70,48 +71,51 @@ const Login = () => {
 
     }
 
-    return (
-        <Card className="mt-5 mx-3 p-3 px-5 shadow">
-            <Card.Body>
-                <ToggleTheme />
-                <Row className="mb-2">
-                    <h5>¡Bienvenidos a Books Champion!</h5>
-                </Row>
-                <Form onSubmit={handleSubmit}>
-                    <FormGroup className="mb-4">
-                        <Form.Control
-                            type="text"
-                            className={
-                                `input-email  ${errors.email ? 'border border-danger' : ''}`
-                            }
-                            placeholder="Ingresar email"
-                            onChange={handleEmailChange}
-                            value={email}
-                            ref={emailRef}
-                        />
-                        {errors.email && <p className="text-danger">El campo email es obligatorio</p>}
-                    </FormGroup>
-                    <FormGroup className="mb-4">
-                        <Form.Control
-                            type="password"
+    const handleRegisterClick = () => {
+        navigate("/register")
+    }
 
-                            placeholder="Ingresar contraseña"
-                            onChange={handlePasswordChange}
-                            value={password}
-                            ref={passwordRef}
-                        />
-                    </FormGroup>
-                    <Row>
-                        <Col />
-                        <Col md={6} className="d-flex justify-content-end">
-                            <Button variant="secondary" type="submit">
-                                Iniciar sesión
-                            </Button>
-                        </Col>
-                    </Row>
-                </Form>
-            </Card.Body>
-        </Card>
+    return (
+        <AuthContainer>
+            <Form onSubmit={handleSubmit}>
+                <FormGroup className="mb-4">
+                    <Form.Control
+                        type="text"
+                        className={
+                            `input-email  ${errors.email ? 'border border-danger' : ''}`
+                        }
+                        placeholder="Ingresar email"
+                        onChange={handleEmailChange}
+                        value={email}
+                        ref={emailRef}
+                    />
+                    {errors.email && <p className="text-danger">El campo email es obligatorio</p>}
+                </FormGroup>
+                <FormGroup className="mb-4">
+                    <Form.Control
+                        type="password"
+
+                        placeholder="Ingresar contraseña"
+                        onChange={handlePasswordChange}
+                        value={password}
+                        ref={passwordRef}
+                    />
+                </FormGroup>
+                <Row>
+                    <Col />
+                    <Col md={6} className="d-flex justify-content-end">
+                        <Button variant="secondary" type="submit">
+                            Iniciar sesión
+                        </Button>
+                    </Col>
+                </Row>
+                <Row className="mt-4">
+                    <p className="text-center fw-bold">¿Aún no tienes cuenta?</p>
+                    <Button onClick={handleRegisterClick}>Registrarse</Button>
+                </Row>
+
+            </Form>
+        </AuthContainer>
     );
 };
 

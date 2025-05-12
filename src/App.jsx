@@ -14,6 +14,7 @@ import Login from "./components/auth/login/Login"
 import Dashboard from "./components/library/dashboard/Dashboard"
 import NotFound from "./components/routes/notFound/NotFound"
 import Protected from "./components/routes/protected/Protected"
+import Register from "./components/auth/register/Register";
 
 const App = () => {
 
@@ -25,6 +26,7 @@ const App = () => {
           <Route path='/' element={<Navigate to='login' />} />
           <Route
             path="/login" element={<Login />} />
+          <Route path='/register' element={<Register />} />
           <Route element={<Protected />}>
             <Route path="/library/*" element={<Dashboard />} />
           </Route>
